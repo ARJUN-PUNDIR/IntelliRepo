@@ -1,0 +1,1 @@
+# IntelliRepo Core Config
