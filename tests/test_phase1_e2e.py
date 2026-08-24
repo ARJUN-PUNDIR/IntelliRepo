@@ -1,4 +1,8 @@
 import os
+import sys
+# This ensures Python looks at the root of the project for modules like 'ctig_parser'
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import json
 from dataclasses import asdict
 from ctig_parser.ast.graph_builder import InMemoryGraph
