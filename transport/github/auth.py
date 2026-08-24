@@ -55,3 +55,23 @@ class GitHubAPI:
         except Exception as e:
             logger.error(f"Failed to communicate with GitHub: {e}")
             return None
+
+    def get_raw(self, endpoint: str, custom_media_type: str) -> Optional[str]:
+        """
+        Knocks on GitHub's door but asks for raw text (like a diff) instead of JSON.
+        """
+        clean_endpoint = endpoint.lstrip('/')
+        url = f"{self.base_url}/{clean_endpoint}"
+        
+        headers = self.get_headers()
+        # Override the Accept header to get specific formats (like diffs)
+        headers["Accept"] = custom_media_type
+        
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+            return response.text
+            
+        except Exception as e:
+            logger.error(f"Failed to get raw data from GitHub: {e}")
+            return None

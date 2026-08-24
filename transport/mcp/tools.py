@@ -74,3 +74,24 @@ class GitHubTools:
         except Exception as e:
             logger.error(f"Failed to decode file content: {e}")
             return f"Error: File content could not be decoded. It might not be a text file."
+
+    def get_commit_diff(self, repo_name: str, commit_sha: str) -> str:
+        """
+        MCP Tool: Fetches the exact code changes (diff) for a specific commit.
+        
+        Args:
+            repo_name: The full repository name
+            commit_sha: The 40-character commit hash
+        """
+        logger.info(f"AI requested diff for commit '{commit_sha}' in {repo_name}")
+        
+        endpoint = f"repos/{repo_name}/commits/{commit_sha}"
+        
+        # GitHub Secret: To get a diff instead of JSON, we have to change the envelope!
+        # We ask specifically for 'application/vnd.github.v3.diff'
+        diff_text = self.api.get_raw(endpoint, custom_media_type="application/vnd.github.v3.diff")
+        
+        if not diff_text:
+            return f"Error: Could not fetch diff for commit '{commit_sha}'."
+
+        return diff_text
