@@ -95,3 +95,37 @@ class GitHubTools:
             return f"Error: Could not fetch diff for commit '{commit_sha}'."
 
         return diff_text
+
+    def create_branch(self, repo_name: str, new_branch_name: str, base_branch: str = "main") -> str:
+        """
+        MCP Tool: Creates a new Git branch in the repository.
+        
+        Args:
+            repo_name: The full repository name
+            new_branch_name: The name of the new branch (e.g., 'fix-auth-bug')
+            base_branch: The branch to branch off of (default: 'main')
+        """
+        logger.info(f"AI requesting to create branch '{new_branch_name}' off '{base_branch}' in {repo_name}")
+        
+        # Step 1: Find out exactly where the base branch is pointing right now
+        ref_endpoint = f"repos/{repo_name}/git/ref/heads/{base_branch}"
+        base_ref_data = self.api.get(ref_endpoint)
+        
+        if not base_ref_data or "object" not in base_ref_data:
+            return f"Error: Could not find base branch '{base_branch}'."
+            
+        latest_sha = base_ref_data["object"]["sha"]
+        
+        # Step 2: Create the new branch pointing to that exact same SHA
+        create_endpoint = f"repos/{repo_name}/git/refs"
+        payload = {
+            "ref": f"refs/heads/{new_branch_name}",
+            "sha": latest_sha
+        }
+        
+        result = self.api.post(create_endpoint, payload)
+        
+        if result:
+            return f"Success! Branch '{new_branch_name}' created successfully."
+        else:
+            return f"Error: Failed to create branch '{new_branch_name}'. It might already exist."

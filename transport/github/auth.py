@@ -75,3 +75,23 @@ class GitHubAPI:
         except Exception as e:
             logger.error(f"Failed to get raw data from GitHub: {e}")
             return None
+
+    def post(self, endpoint: str, payload: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """
+        Sends new information (like creating a branch or PR) to GitHub.
+        """
+        clean_endpoint = endpoint.lstrip('/')
+        url = f"{self.base_url}/{clean_endpoint}"
+        
+        try:
+            # We use requests.post and send the payload as JSON
+            response = requests.post(url, headers=self.get_headers(), json=payload)
+            response.raise_for_status()
+            return response.json()
+            
+        except requests.exceptions.HTTPError as e:
+            logger.error(f"GitHub API POST rejected: {e} - {e.response.text}")
+            return None
+        except Exception as e:
+            logger.error(f"Failed to POST to GitHub: {e}")
+            return None
