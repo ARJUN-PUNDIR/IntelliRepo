@@ -22,8 +22,7 @@ class ParserManager:
             python_lang = tree_sitter.Language(tree_sitter_python.language())
             
             # 2. Create the parser
-            parser = tree_sitter.Parser()
-            parser.set_language(python_lang)
+            parser = tree_sitter.Parser(python_lang)
             
             # 3. Store it in our registry
             self.parsers['python'] = parser
