@@ -129,3 +129,31 @@ class GitHubTools:
             return f"Success! Branch '{new_branch_name}' created successfully."
         else:
             return f"Error: Failed to create branch '{new_branch_name}'. It might already exist."
+
+    def create_pr(self, repo_name: str, title: str, head_branch: str, base_branch: str = "main", body: str = "") -> str:
+        """
+        MCP Tool: Creates a Pull Request on GitHub.
+        
+        Args:
+            repo_name: The full repository name
+            title: The title of the PR
+            head_branch: The branch containing the changes (e.g., 'fix-auth-bug')
+            base_branch: The target branch to merge into (default: 'main')
+            body: The detailed description of what was fixed
+        """
+        logger.info(f"AI requesting to create PR: '{title}' from {head_branch} to {base_branch}")
+        
+        endpoint = f"repos/{repo_name}/pulls"
+        payload = {
+            "title": title,
+            "head": head_branch,
+            "base": base_branch,
+            "body": body
+        }
+        
+        result = self.api.post(endpoint, payload)
+        
+        if result and "html_url" in result:
+            return f"Success! Pull Request created: {result['html_url']}"
+        else:
+            return f"Error: Failed to create Pull Request. Make sure there are actual commits on the branch."
