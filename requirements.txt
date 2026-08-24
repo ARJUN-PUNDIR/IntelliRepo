@@ -3,3 +3,4 @@ tree-sitter-python
 neo4j
 sentence-transformers
 chromadb
+mcp
