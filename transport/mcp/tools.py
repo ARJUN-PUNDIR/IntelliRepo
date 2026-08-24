@@ -44,3 +44,33 @@ class GitHubTools:
         )
         
         return formatted_response
+
+    def read_raw_file(self, repo_name: str, file_path: str, branch: str = "main") -> str:
+        """
+        MCP Tool: Fetches the raw text content of a file from GitHub.
+        
+        Args:
+            repo_name: The full repository name
+            file_path: The path to the file (e.g., 'core/logger.py')
+            branch: The branch to read from
+        """
+        logger.info(f"AI requested file '{file_path}' from {repo_name} (branch: {branch})")
+        
+        endpoint = f"repos/{repo_name}/contents/{file_path}?ref={branch}"
+        file_data = self.api.get(endpoint)
+        
+        if not file_data:
+            return f"Error: Could not read file '{file_path}'."
+
+        import base64
+        
+        # GitHub sends the file content wrapped in a secure 'Base64' envelope.
+        # We need to open the envelope and decode it back to normal text.
+        try:
+            content_base64 = file_data.get("content", "")
+            # Decode the base64 string into bytes, then convert bytes to a utf-8 string
+            raw_text = base64.b64decode(content_base64).decode('utf-8')
+            return raw_text
+        except Exception as e:
+            logger.error(f"Failed to decode file content: {e}")
+            return f"Error: File content could not be decoded. It might not be a text file."
