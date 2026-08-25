@@ -25,18 +25,24 @@ Output Format:
 Create a plan that the Junior Developer (Coder Agent) can follow blindly. 
 Include the exact file paths and the exact logic changes required.
 """
+        # We give the Architect a brain!
+        from agents.llm_engine import LLMEngine
+        self.brain = LLMEngine()
 
     def execute(self, issue_details: str) -> str:
-        """
-        The Manager presses this button to wake up the Planner.
-        (We will add the actual LLM thinking logic in the next lectures!)
-        """
+        """The Manager presses this button to wake up the Planner."""
         self.log_status("Waking up and reading the issue...")
         
-        # For now, we simulate the AI thinking
-        draft_plan = f"DRAFT PLAN BASED ON ISSUE: {issue_details}\n1. Find files.\n2. Fix bug."
+        # 1. Task Decomposition: We ask the Brain to think about the issue
+        self.log_status("Thinking about how to break down this problem...")
         
-        # The Planner puts the plan in the Filing Cabinet for the Coder to read later!
+        # We pass the Architect's personality (system_prompt) and the Bug (issue_details) to the Brain
+        draft_plan = self.brain.generate_response(
+            system_prompt=self.system_prompt,
+            user_message=f"Please write a plan to fix this issue:\n{issue_details}"
+        )
+        
+        # 2. The Planner puts the finished plan into the Filing Cabinet for the Coder
         self.memory.set("execution_plan", draft_plan)
         
         self.log_status("Execution Plan completed and saved to Filing Cabinet.")
