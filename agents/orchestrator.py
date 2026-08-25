@@ -64,6 +64,41 @@ class Orchestrator:
                 
         if not is_approved:
             return "❌ ERROR: Plan was never approved."
+            
+        # --- LECTURE 57: HUMAN-IN-THE-LOOP CHECKPOINT ---
+        logger.info("Manager is filling out the Engineering Report for the Boss...")
+        
+        print("\n" + "="*50)
+        print("📄 ENGINEERING REPORT FOR APPROVAL 📄")
+        print("="*50)
+        print(f"**Task:** {github_issue_url}")
+        print("\n**Architect's Final Plan:**")
+        print(plan)
+        print("\n**QA Tester's Final Notes:**")
+        print(critique)
+        print("="*50)
+        
+        while True:
+            user_input = input("Boss, do you approve this plan? (Y/N/Feedback): ").strip()
+            
+            if user_input.lower() in ['y', 'yes']:
+                logger.info("Human Boss APPROVED the plan!")
+                break
+            elif user_input.lower() in ['n', 'no']:
+                logger.warning("Human Boss REJECTED the plan completely. Aborting.")
+                return "❌ Task aborted by human."
+            else:
+                logger.info(f"Human Boss provided feedback: {user_input}")
+                logger.info("Sending feedback back to the Architect...")
+                
+                # We restart the debate loop with the Human's feedback!
+                revised_prompt = f"The Human Boss rejected the plan and said:\n'{user_input}'\n\nPlease revise your plan."
+                plan = self.planner.execute(revised_prompt)
+                
+                # In a full implementation, we would loop back up to the Reflector here.
+                # For this simple course version, we just print the new plan and ask again.
+                print("\n**Architect's REVISED Plan:**")
+                print(plan)
         
         # --- STEP 2: CODING ---
         logger.info("Manager is waking up the Coder Agent...")
