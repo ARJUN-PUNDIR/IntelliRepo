@@ -21,7 +21,8 @@ def load_env_file():
                 line = line.strip()
                 if line and not line.startswith("#") and "=" in line:
                     key, val = line.split("=", 1)
-                    os.environ[key.strip()] = val.strip()
+                    val = val.strip().strip("'").strip('"') # Strip spaces AND quotes!
+                    os.environ[key.strip()] = val
 
 # Load environment variables on import
 load_env_file()
