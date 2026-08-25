@@ -15,6 +15,7 @@ class StateMemory:
             "issue_details": None,
             "research_notes": "",
             "execution_plan": None,
+            "plan_critique": None,
             "working_branch": None,
             "pull_request_url": None,
             "status": "INITIALIZED"
