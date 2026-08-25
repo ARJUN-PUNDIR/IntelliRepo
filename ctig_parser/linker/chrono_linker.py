@@ -1,3 +1,9 @@
+"""
+File: ctig_parser/linker/chrono_linker.py
+Role: The Chrono-Linker. Merges Git Blame history metadata directly onto AST Nodes.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List, Dict, Any
 from core.schema import AstNode
 from core.logger import setup_logger

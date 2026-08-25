@@ -1,3 +1,9 @@
+"""
+File: tests/test_phase1_e2e.py
+Role: Integration Test. Validates Phase 1 AST and Git extraction.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import os
 import sys
 # This ensures Python looks at the root of the project for modules like 'ctig_parser'

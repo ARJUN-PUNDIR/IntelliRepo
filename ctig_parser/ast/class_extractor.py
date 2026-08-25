@@ -1,3 +1,9 @@
+"""
+File: ctig_parser/ast/class_extractor.py
+Role: Core module for ctig_parser/ast/class_extractor.py.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import hashlib
 from typing import List
 from tree_sitter import Node

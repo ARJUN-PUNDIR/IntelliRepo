@@ -1,3 +1,9 @@
+"""
+File: agents/llm_engine.py
+Role: The AI Brain API Wrapper. Connects the agents to LLM providers (OpenAI, Nvidia, etc.).
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import os
 from typing import List, Dict
 from core.logger import setup_logger

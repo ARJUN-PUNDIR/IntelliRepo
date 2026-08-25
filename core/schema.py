@@ -1,3 +1,9 @@
+"""
+File: core/schema.py
+Role: Core Data Structures. Defines the AstNode and GraphEdge dataclasses used globally.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from dataclasses import dataclass, field
 from typing import Optional, Dict, Any
 

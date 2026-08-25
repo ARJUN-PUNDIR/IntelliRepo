@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/graph/node_inserter.py
+Role: Core module for knowledge_base/graph/node_inserter.py.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List
 from core.schema import AstNode
 from knowledge_base.graph.db_driver import Neo4jDriver

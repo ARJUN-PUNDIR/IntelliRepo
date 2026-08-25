@@ -1,3 +1,9 @@
+"""
+File: agents/state_memory.py
+Role: The Filing Cabinet. Holds shared variables and context so agents can communicate asynchronously.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import json
 from typing import Dict, Any, Optional
 from core.logger import setup_logger

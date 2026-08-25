@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/core/db_pool.py
+Role: The Waiting Room. A Singleton connection pool ensuring databases are only opened once.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import threading
 from knowledge_base.graph.db_driver import Neo4jDriver
 from knowledge_base.vector.db_driver import ChromaDriver

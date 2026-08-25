@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/graph/cypher_builder.py
+Role: The Translator. Generates complex Neo4j Cypher queries dynamically from simple inputs.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import Optional
 from core.logger import setup_logger
 

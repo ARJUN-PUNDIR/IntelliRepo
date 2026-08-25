@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/graph/edge_inserter.py
+Role: Core module for knowledge_base/graph/edge_inserter.py.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List
 from core.schema import GraphEdge
 from knowledge_base.graph.db_driver import Neo4jDriver

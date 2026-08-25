@@ -1,3 +1,9 @@
+"""
+File: ctig_parser/ast/parser_setup.py
+Role: Core module for ctig_parser/ast/parser_setup.py.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import tree_sitter
 import tree_sitter_python
 from core.logger import setup_logger

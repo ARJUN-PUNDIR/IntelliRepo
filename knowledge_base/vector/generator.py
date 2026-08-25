@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/vector/generator.py
+Role: Vector DB Populator. Reads the codebase, chunks it, embeds it, and saves it to ChromaDB.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List, Dict, Any
 from core.schema import AstNode
 from knowledge_base.vector.embedder import CodeEmbedder

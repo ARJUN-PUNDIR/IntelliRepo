@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/core/dual_brain.py
+Role: The Director. The high-level API orchestrating both the Graph and Vector databases.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List, Dict, Any
 from knowledge_base.graph.query_interface import GraphQueryInterface
 from knowledge_base.vector.interface import VectorKnowledgeBase

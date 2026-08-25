@@ -1,3 +1,9 @@
+"""
+File: transport/mcp/code_intel_tools.py
+Role: The Intelligence Toolbox. Exposes Graph and Vector DB queries as MCP tools for the agents.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import Dict, Any, List
 from knowledge_base.core.db_pool import get_db_pool
 from knowledge_base.graph.cypher_builder import CypherBuilder

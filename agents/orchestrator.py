@@ -1,3 +1,9 @@
+"""
+File: agents/orchestrator.py
+Role: The Manager. Coordinates the workflow between the Planner, QA Tester, and Coder agents.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import Dict, Any
 from core.logger import setup_logger
 

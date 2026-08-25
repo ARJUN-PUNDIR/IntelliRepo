@@ -1,3 +1,9 @@
+"""
+File: agents/reflection_agent.py
+Role: The QA Tester. Critiques plans and generates falsifiable hypotheses to test against the codebase.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from agents.base_agent import BaseAgent
 from agents.state_memory import StateMemory
 from agents.llm_engine import LLMEngine

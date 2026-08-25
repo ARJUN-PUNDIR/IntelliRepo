@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/graph/query_interface.py
+Role: Graph Query APIs. Pre-defined query wrappers for topological searches.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List, Dict, Any
 from knowledge_base.graph.db_driver import Neo4jDriver
 from core.logger import setup_logger

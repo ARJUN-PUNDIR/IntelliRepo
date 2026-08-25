@@ -1,3 +1,9 @@
+"""
+File: transport/mcp/server_setup.py
+Role: The Basic Switchboard. The FastMCP server hosting the GitHub tools.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from mcp.server.fastmcp import FastMCP
 from core.logger import setup_logger
 

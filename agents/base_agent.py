@@ -1,3 +1,9 @@
+"""
+File: agents/base_agent.py
+Role: The Employee Handbook. The base interface that all AI Agents must inherit from.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from abc import ABC, abstractmethod
 from typing import Any
 from agents.state_memory import StateMemory

@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/vector/chunker.py
+Role: The Slicer. Breaks large code files into smaller semantic chunks for vector storage.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List, Dict, Any
 from core.schema import AstNode
 from core.logger import setup_logger

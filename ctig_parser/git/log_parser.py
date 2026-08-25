@@ -1,3 +1,9 @@
+"""
+File: ctig_parser/git/log_parser.py
+Role: Git Log Parser. Extracts commit history metadata.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List, Dict, Any
 from ctig_parser.git.git_wrapper import GitWrapper
 from core.logger import setup_logger

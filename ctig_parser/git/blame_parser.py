@@ -1,3 +1,9 @@
+"""
+File: ctig_parser/git/blame_parser.py
+Role: Git Blame Parser. Maps specific lines of code to their last modifying author and timestamp.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import Dict, Any
 from ctig_parser.git.git_wrapper import GitWrapper
 from core.logger import setup_logger

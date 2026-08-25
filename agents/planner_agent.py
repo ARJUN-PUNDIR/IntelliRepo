@@ -1,3 +1,9 @@
+"""
+File: agents/planner_agent.py
+Role: The Senior Architect. Uses Code Intel to research issues and write safe execution plans.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from agents.base_agent import BaseAgent
 from agents.state_memory import StateMemory
 

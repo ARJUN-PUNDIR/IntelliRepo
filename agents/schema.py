@@ -1,3 +1,9 @@
+"""
+File: agents/schema.py
+Role: The Approval Form. Pydantic schemas defining structured data like the Engineering Report.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from pydantic import BaseModel, Field
 from typing import List, Optional
 

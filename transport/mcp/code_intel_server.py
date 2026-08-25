@@ -1,3 +1,9 @@
+"""
+File: transport/mcp/code_intel_server.py
+Role: The Smart Switchboard. The FastMCP server hosting the Code Intel tools.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from mcp.server.fastmcp import FastMCP
 from knowledge_base.core.dual_brain import DualBrain
 from transport.mcp.code_intel_tools import CodeIntelTools

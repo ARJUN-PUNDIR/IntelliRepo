@@ -1,3 +1,9 @@
+"""
+File: ctig_parser/ast/graph_builder.py
+Role: Core module for ctig_parser/ast/graph_builder.py.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List, Dict, Any
 from core.schema import AstNode, GraphEdge
 from core.logger import setup_logger

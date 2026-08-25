@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/vector/db_driver.py
+Role: The Vector Vault. Manages connection and storage for ChromaDB.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import os
 import chromadb
 from typing import List, Dict, Any

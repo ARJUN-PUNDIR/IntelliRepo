@@ -1,3 +1,9 @@
+"""
+File: cli.py
+Role: The Front Door. Provides the Command Line Interface (CLI) for users to interact with IntelliRepo.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import argparse
 import sys
 from core.logger import setup_logger
@@ -35,8 +41,17 @@ def main():
 
     if args.command == "solve":
         logger.info(f"CLI routing 'solve' command for URL: {args.url}")
-        # (We will link this to the Orchestrator in the next lecture!)
         print(f"🚀 Preparing to solve: {args.url}")
+        
+        # --- LECTURE 59: END-TO-END WIRING ---
+        from agents.orchestrator import Orchestrator
+        manager = Orchestrator()
+        
+        final_result = manager.solve_task(args.url)
+        
+        print("\n=== FINAL RESULT FROM SYSTEM ===")
+        print(final_result)
+        print("================================\n")
         
     elif args.command == "build-brain":
         logger.info("CLI routing 'build-brain' command.")

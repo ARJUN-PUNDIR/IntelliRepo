@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/vector/interface.py
+Role: Core module for knowledge_base/vector/interface.py.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List, Dict, Any
 from core.schema import AstNode
 from knowledge_base.vector.embedder import CodeEmbedder

@@ -1,3 +1,9 @@
+"""
+File: core/logger.py
+Role: The System Logger. Provides standardized, colorful logging for the entire system.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import logging
 import sys
 from logging.handlers import RotatingFileHandler

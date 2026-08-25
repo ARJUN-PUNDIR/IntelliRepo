@@ -1,3 +1,9 @@
+"""
+File: transport/mcp/tools.py
+Role: The GitHub Toolbox. Exposes standard GitHub operations (read file, create branch, PR).
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import Dict, Any, Optional
 from transport.github.auth import GitHubAPI
 from core.logger import setup_logger

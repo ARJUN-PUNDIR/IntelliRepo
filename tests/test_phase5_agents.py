@@ -1,3 +1,9 @@
+"""
+File: tests/test_phase5_agents.py
+Role: Integration Test. Validates Phase 5 Multi-Agent Orchestration loop.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import os
 import sys
 

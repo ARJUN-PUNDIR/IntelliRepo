@@ -1,3 +1,9 @@
+"""
+File: ctig_parser/git/git_wrapper.py
+Role: Git API. Runs raw git commands in the terminal sandbox.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import subprocess
 from typing import List, Optional
 from core.logger import setup_logger

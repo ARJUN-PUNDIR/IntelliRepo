@@ -1,3 +1,9 @@
+"""
+File: transport/github/auth.py
+Role: GitHub API Wrapper. Handles authentication and REST requests to GitHub.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import os
 import requests
 from typing import Dict, Any, Optional

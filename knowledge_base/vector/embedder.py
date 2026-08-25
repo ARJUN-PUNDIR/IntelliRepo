@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/vector/embedder.py
+Role: The Meaning Machine. Uses Sentence Transformers to convert code text into mathematical vectors.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List
 from core.logger import setup_logger
 

@@ -1,3 +1,9 @@
+"""
+File: knowledge_base/graph/db_driver.py
+Role: The Steel Vault. Manages connection and transactions for the Neo4j Graph Database.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 import os
 from neo4j import GraphDatabase
 from core.logger import setup_logger

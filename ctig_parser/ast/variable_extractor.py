@@ -1,3 +1,9 @@
+"""
+File: ctig_parser/ast/variable_extractor.py
+Role: Core module for ctig_parser/ast/variable_extractor.py.
+Part of the IntelliRepo Autonomous Multi-Agent System.
+"""
+
 from typing import List
 from tree_sitter import Node
 from core.schema import AstNode
