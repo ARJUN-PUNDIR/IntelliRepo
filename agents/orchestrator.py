@@ -10,23 +10,32 @@ class Orchestrator:
     Ensures that planning always happens BEFORE coding!
     """
     def __init__(self):
-        # We will initialize the Planner and Coder agents in the next lectures
-        self.planner = None
+        from agents.state_memory import StateMemory
+        from agents.planner_agent import PlannerAgent
+        
+        # 1. The Manager buys a Filing Cabinet
+        self.memory = StateMemory()
+        
+        # 2. The Manager officially hires the Senior Architect and gives him access to the cabinet
+        self.planner = PlannerAgent(memory=self.memory)
+        
         self.coder = None
         logger.info("Orchestrator (Manager) has entered the office.")
 
     def solve_task(self, github_issue_url: str) -> str:
         """
         The Main Loop. This is where the magic happens.
-        You give the Manager a GitHub issue, and it handles everything else.
         """
         logger.info(f"Manager received a new task: {github_issue_url}")
         
+        # We put the issue into the filing cabinet so everyone can read it
+        self.memory.set("task_url", github_issue_url)
+        
         # --- STEP 1: PLANNING ---
         logger.info("Manager is waking up the Planner Agent...")
-        # In reality, this will trigger the LLM to research the Code Intel MCP
-        # plan = self.planner.create_plan(github_issue_url)
-        plan = "[DRAFT PLAN: Research the bug and identify files to change]"
+        
+        # The Manager presses the Architect's 'execute' button!
+        plan = self.planner.execute(github_issue_url)
         logger.info("Planner Agent has finished the plan.")
         
         # --- STEP 2: CODING ---
