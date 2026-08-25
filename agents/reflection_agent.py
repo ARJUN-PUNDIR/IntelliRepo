@@ -31,12 +31,16 @@ Return a critique detailing the flaws, followed by a final decision: [APPROVE] o
         """The Manager presses this button to wake up the QA Tester."""
         self.log_status("Waking up and reading the Architect's plan...")
         
-        # (We will add the actual LLM logic and loop in the next lectures)
-        self.log_status("Critiquing the plan...")
+        self.log_status("Critiquing the plan and generating a Falsifiable Hypothesis...")
         
-        draft_critique = f"DRAFT CRITIQUE FOR PLAN:\n{plan}\n\nDecision: [APPROVE]"
+        # We pass the QA Tester's paranoid personality and the Architect's plan to the Brain
+        critique = self.brain.generate_response(
+            system_prompt=self.system_prompt,
+            user_message=f"Please rigorously critique this Execution Plan:\n{plan}"
+        )
         
         # Save the critique to the Filing Cabinet
-        self.memory.set("plan_critique", draft_critique)
+        self.memory.set("plan_critique", critique)
         
-        return draft_critique
+        self.log_status("Critique completed and saved to Filing Cabinet.")
+        return critique
