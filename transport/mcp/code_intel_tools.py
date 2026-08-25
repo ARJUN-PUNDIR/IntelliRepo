@@ -157,3 +157,42 @@ class CodeIntelTools:
         except Exception as e:
             logger.error(f"Failed to execute temporal search: {e}")
             return f"❌ Error executing search: {e}"
+
+    def semantic_architecture_search(self, natural_language_query: str, n_results: int = 3) -> str:
+        """
+        MCP Tool: The Intuition Engine.
+        Allows the AI Agent to ask fuzzy, conceptual questions when it doesn't know exact function names.
+        """
+        logger.info(f"AI requested Semantic Search: '{natural_language_query}'")
+        
+        # 1. Grab the ML Model and the Vector DB from the Waiting Room
+        embedder = self.db_pool.get_embedder()
+        chroma_db = self.db_pool.get_chroma()
+        
+        # 2. Ask the Meaning Machine to translate English into numbers
+        query_vector = embedder.embed_text(natural_language_query)
+        
+        if not query_vector:
+            return "❌ Error: Meaning Machine failed to embed the query."
+
+        # 3. Ask the Magic Librarian to find the closest matches in 384-dimensional space
+        results = chroma_db.query_similar(query_vector=query_vector, n_results=n_results)
+        
+        if not results or not results.get("documents") or not results["documents"][0]:
+            return "🤷‍♂️ Could not find any code matching that concept."
+
+        # 4. The Beautifier for Semantic Results
+        report = [f"🧠 **SEMANTIC SEARCH RESULTS FOR:** *'{natural_language_query}'* 🧠", "=" * 55]
+        
+        # Chroma returns lists of lists. We grab the first inner list.
+        documents = results["documents"][0]
+        metadatas = results["metadatas"][0]
+        
+        for i in range(len(documents)):
+            meta = metadatas[i]
+            # Print the Metadata (File/Type) and the actual Code Snippet
+            report.append(f"\n📍 **Match {i+1}: `{meta['name']}`** (in `{meta['file_path']}`)")
+            report.append(f"```python\n{documents[i]}\n```")
+            report.append("-" * 40)
+
+        return "\n".join(report)

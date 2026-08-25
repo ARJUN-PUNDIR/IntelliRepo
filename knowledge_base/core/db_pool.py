@@ -32,7 +32,11 @@ class DatabasePoolManager:
         # 2. Connect to the Vector Vault (Chroma DB)
         self.chroma_driver = ChromaDriver()
         
-        logger.info("All database connections are pooled and ready.")
+        # 3. Load the Meaning Machine (Embedder) into the Waiting Room so it's always ready
+        from knowledge_base.vector.embedder import CodeEmbedder
+        self.embedder = CodeEmbedder()
+        
+        logger.info("All database connections and ML models are pooled and ready.")
 
     def get_neo4j(self) -> Neo4jDriver:
         """Hands an open Graph DB channel to the Director."""
@@ -41,6 +45,10 @@ class DatabasePoolManager:
     def get_chroma(self) -> ChromaDriver:
         """Hands an open Vector DB channel to the Director."""
         return self.chroma_driver
+        
+    def get_embedder(self):
+        """Hands the Meaning Machine to the Director."""
+        return self.embedder
 
     def close_all(self):
         """Locks all the doors when the server finally shuts down."""
