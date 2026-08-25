@@ -33,13 +33,29 @@ Include the exact file paths and the exact logic changes required.
         """The Manager presses this button to wake up the Planner."""
         self.log_status("Waking up and reading the issue...")
         
+        # --- LECTURE 48: TOOL BINDING ---
+        self.log_status("Plugging into the Code Intel Switchboard...")
+        # In a real environment, we would start an MCP Client to talk to our FastMCP Server.
+        # For now, we manually 'bind' the tool descriptions so the AI Brain knows they exist.
+        mcp_tools = [
+            {
+                "name": "trace_blast_radius",
+                "description": "Tells you which files will break if you modify the target."
+            },
+            {
+                "name": "semantic_architecture_search",
+                "description": "Finds files based on fuzzy concepts (e.g. 'Stripe payment')."
+            }
+        ]
+        
         # 1. Task Decomposition: We ask the Brain to think about the issue
         self.log_status("Thinking about how to break down this problem...")
         
-        # We pass the Architect's personality (system_prompt) and the Bug (issue_details) to the Brain
+        # Notice how we now pass 'mcp_tools' to the Brain!
         draft_plan = self.brain.generate_response(
             system_prompt=self.system_prompt,
-            user_message=f"Please write a plan to fix this issue:\n{issue_details}"
+            user_message=f"Please write a plan to fix this issue:\n{issue_details}",
+            tools=mcp_tools
         )
         
         # 2. The Planner puts the finished plan into the Filing Cabinet for the Coder
