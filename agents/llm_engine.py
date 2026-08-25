@@ -15,26 +15,28 @@ class LLMEngine:
     The Brain API.
     A simple wrapper around an LLM provider (like OpenAI or Anthropic).
     """
-    def __init__(self, model_name: str = "gpt-4o"):
+    def __init__(self, model_name: str = "meta/llama-3.1-70b-instruct"):
         self.model_name = model_name
-        self.api_key = os.getenv("OPENAI_API_KEY")
+        
+        # We will use NVIDIA instead of OpenAI since the user requested it!
+        self.api_key = os.getenv("NVIDIA_API_KEY")
         
         if not self.api_key:
-            logger.warning("No LLM API Key found! The AI Brain is currently asleep.")
+            logger.warning("No NVIDIA_API_KEY found in .env! The AI Brain is currently asleep.")
             
     def generate_response(self, system_prompt: str, user_message: str, tools: List[Dict] = None) -> str:
-        """
-        Takes the personality (system), the problem (user), and the tools, 
-        and asks the LLM to think about it.
-        """
-        logger.info(f"LLM Engine thinking using model '{self.model_name}'...")
+        """Takes the personality, the problem, and the tools, and asks the LLM to think."""
+        logger.info(f"LLM Engine thinking using NVIDIA model '{self.model_name}'...")
         
         if not self.api_key:
             return "[SIMULATED LLM RESPONSE: I would use my tools here to investigate the bug, but I have no API key.]"
             
-        # In a full deployment, this is where we call:
-        # client = openai.OpenAI(api_key=self.api_key)
+        # In a full deployment, this is where we call the NVIDIA NIM API using the OpenAI SDK format:
+        # from openai import OpenAI
+        # client = OpenAI(
+        #   base_url="https://integrate.api.nvidia.com/v1",
+        #   api_key=self.api_key
+        # )
         # response = client.chat.completions.create(...)
-        # return response.choices[0].message.content
         
         return "[REAL LLM RESPONSE PLACEHOLDER]"
