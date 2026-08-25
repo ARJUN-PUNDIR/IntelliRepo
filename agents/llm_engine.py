@@ -15,7 +15,7 @@ class LLMEngine:
     The Brain API.
     A simple wrapper around an LLM provider (like OpenAI or Anthropic).
     """
-    def __init__(self, model_name: str = "nvidia/llama-3.1-70b-instruct"):
+    def __init__(self, model_name: str = "nvidia/nemotron-3-ultra-550b-a55b"):
         self.model_name = model_name
         
         # We check for ANY popular API key so you are not locked into one provider
