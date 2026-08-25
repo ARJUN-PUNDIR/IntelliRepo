@@ -35,7 +35,7 @@ graph TD
     User([👨‍💻 Human Boss]) -->|Submits GitHub Issue| M(Manager / Orchestrator)
     M <--> |Filing Cabinet| SM[(State Memory)]
     
-    subgraph Multi-Agent Workforce
+    subgraph Multi_Agent_Workforce [Multi-Agent Workforce]
         M -->|1. Wake up Planner| PA(Architect Agent)
         PA -->|Writes Plan| M
         M -->|2. Request Critique| RA(QA Tester Agent)
@@ -43,12 +43,12 @@ graph TD
         RA -->|Approves Plan| M
     end
     
-    subgraph The Switchboards (MCP)
+    subgraph Switchboards [The Switchboards MCP]
         PA <-->|Tool Binding| MCP_CI[Code Intel MCP]
         RA <-->|Tool Binding| MCP_CI
     end
     
-    subgraph The Dual Brain
+    subgraph Dual_Brain [The Dual Brain]
         MCP_CI <-->|Cypher Queries| Neo4j[(Neo4j Graph)]
         MCP_CI <-->|Vector Queries| Chroma[(ChromaDB)]
     end
