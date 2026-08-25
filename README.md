@@ -1,30 +1,32 @@
 # 🧠 IntelliRepo: Autonomous Multi-Agent Software Engineering System
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Neo4j](https://img.shields.io/badge/Neo4j-Graph_Database-green.svg)](https://neo4j.com/)
-[![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector_Database-orange.svg)](https://www.trychroma.com/)
-[![MCP](https://img.shields.io/badge/MCP-Model_Context_Protocol-purple.svg)](https://modelcontextprotocol.io/)
+A modular multi-agent software engineering platform built with FastMCP, Neo4j, and ChromaDB. It combines topological code tracing, local semantic vector search, self-correcting reflection audits, human-in-the-loop plan reviews, and autonomous coding capabilities.
 
-Welcome to **IntelliRepo**, a research-grade Multi-Agent System designed to act as an autonomous software engineering team. 
+![Python](https://img.shields.io/badge/PYTHON-3.10+-blue?style=for-the-badge&logo=python&logoColor=white)
+![FastMCP](https://img.shields.io/badge/FASTMCP-SWITCHBOARDS-purple?style=for-the-badge)
+![Neo4j](https://img.shields.io/badge/NEO4J-GRAPH_TOPOLOGY-green?style=for-the-badge&logo=neo4j&logoColor=white)
+![ChromaDB](https://img.shields.io/badge/CHROMADB-VECTOR_SEARCH-orange?style=for-the-badge)
+![LangSmith](https://img.shields.io/badge/LANGSMITH-OBSERVABILITY-black?style=for-the-badge)
 
-Unlike standard AI coding assistants that blindly guess how to fix a bug based on text snippets, IntelliRepo relies on a **Dual-Brain Architecture** combining **Topological Graph Logic** (Neo4j) and **Semantic Meaning** (ChromaDB).
+---
 
-## ✨ Uniqueness & Core Philosophy
+## 🌟 Core Engineering Achievements
 
-1. **The Dual-Brain Setup**: 
-   - We extract the Abstract Syntax Tree (AST) of the entire codebase and map it as a Graph Database in Neo4j. We also extract Git Blame history and map it directly onto those AST nodes.
-   - We chunk and embed the code into a Vector Database in ChromaDB.
-   - This allows agents to ask fuzzy questions (*"Where is the payment logic?"*) and then use strict graph tracing on the results (*"If I modify this payment function, what exactly breaks 3 levels deep?"*).
+### 1. 🧠 The Dual-Brain RAG Architecture
 
-2. **Model Context Protocol (MCP) Switchboards**:
-   - Instead of hardcoding tools into the LLMs, we expose the databases and GitHub APIs via MCP Servers. 
-   - The AI Agents dynamically discover and connect to these Switchboards.
+Unlike standard RAG pipelines that rely purely on semantic text embeddings, IntelliRepo extracts the Abstract Syntax Tree (AST) of the codebase and maps it as a connected Graph Database ( `Neo4j` ). We also extract Git Blame history and bind it directly to these AST nodes. This allows agents to ask fuzzy semantic questions via `ChromaDB` and then use strict topological graph tracing to calculate the exact structural blast radius of any code change.
 
-3. **Multi-Agent Orchestration**:
-   - **The Manager (Orchestrator)**: Coordinates the workflow and handles Human-in-the-Loop approvals.
-   - **The Architect (Planner Agent)**: Uses the Code Intel MCP tools to map the codebase, trace the "Blast Radius", and write a safe execution plan.
-   - **The QA Tester (Reflection Agent)**: Rigorously critiques the Architect's plan by generating "Falsifiable Hypotheses" and testing them against the Code Intel Radar.
-   - **The Coder (Coder Agent)**: Follows the mathematically verified plan and submits the Pull Request.
+### 2. 🔄 Self-Correcting Reflection Audit Loop
+
+Unlike standard linear pipelines, IntelliRepo incorporates a closed-loop quality control node ( `ReflectionAgent` ). It rigorously audits the execution plan created by the Senior Architect. If edge cases or missing dependencies are found, it generates a "Falsifiable Hypothesis", tests it against the Code Intel Radar, and automatically triggers a re-planning debate loop (capped at max 3 iterations).
+
+### 3. 🔌 Dynamic FastMCP Tool Binding
+
+Instead of hardcoding complex Python functions directly into the LLM context window, IntelliRepo exposes its Graph Database, Vector Database, and GitHub APIs via Model Context Protocol ( `MCP` ) Switchboards. The AI Agents dynamically discover and connect to these switchboards on the fly, reducing prompt token consumption and enforcing true separation of concerns.
+
+### 4. 👨‍💻 Human-in-the-Loop Orchestration
+
+An intelligent `Orchestrator` handles intent routing and pauses the automated execution pipeline right before any code is written. It generates a strict, Pydantic-validated `EngineeringReport` and waits for human validation ( `APPROVE` , `REJECT` , or `FEEDBACK` ). If feedback is provided, the AI routes it back to the Architect to revise the plan.
 
 ---
 
@@ -63,40 +65,24 @@ graph TD
 
 ---
 
-## 🚀 How to Use IntelliRepo
+## 🚀 Quick Start Guide
 
-### 1. Setup Your Environment
-First, you need to provide your API keys to power the AI Brain. 
-Copy the template file to create your own environment file:
+### 1. Setup Environment
+Copy the template file to create your environment variables:
 ```bash
 cp .env.example .env
 ```
-Open `.env` and paste in your API keys:
-- **OPENAI_API_KEY** or **NVIDIA_API_KEY**: The brain of the agents.
-- **GITHUB_TOKEN**: For the Coder Agent to create branches and PRs.
-- **LANGCHAIN_API_KEY**: For tracking agent thoughts in LangSmith.
-- **NEO4J Credentials**: For your local or cloud Graph DB.
+Open `.env` and configure your API keys (OpenAI/Nvidia, LangSmith, GitHub).
 
-### 2. Start the CLI (The Front Door)
-We built a beautiful Command Line Interface (CLI) so you can easily run the system.
+### 2. The Command Line Interface
+Interact with the Multi-Agent team using the Front Door CLI:
 
-**To ask the AI Team to fix a bug:**
+**Ask the AI Team to fix a bug:**
 ```bash
 python cli.py solve --url "https://github.com/your-repo/issues/123"
 ```
 
-**To rebuild the Dual-Brain (Graph & Vector):**
+**Rebuild the Dual-Brain (Graph & Vector):**
 ```bash
 python cli.py build-brain
 ```
-
-### 3. The Human-in-the-Loop Process
-When you run the `solve` command:
-1. The AI Architect will write a plan.
-2. The AI QA Tester will debate the Architect until the plan is mathematically safe.
-3. The Manager will print an **Engineering Report** to your terminal and **PAUSE**.
-4. You will be prompted: `Boss, do you approve this plan? (Y/N/Feedback)`
-5. If you approve, the Coder writes the code. If you write feedback, the agents go back to the drawing board!
-
----
-*Built as an Advanced Masterclass in Multi-Agent Software Engineering.*
