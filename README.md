@@ -36,6 +36,41 @@ Once the human approves the plan, the `CoderAgent` takes over. It receives the v
 
 ---
 
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+    User([👨‍💻 Human Boss]) -->|Submits GitHub Issue| M(Manager / Orchestrator)
+    M <--> |Filing Cabinet| SM[(State Memory)]
+    
+    subgraph Multi_Agent_Workforce [Multi-Agent Workforce]
+        M -->|1. Wake up Planner| PA(Architect Agent)
+        PA -->|Writes Plan| M
+        M -->|2. Request Critique| RA(QA Tester Agent)
+        RA -->|Rejects / Debate Loop| PA
+        RA -->|Approves Plan| M
+    end
+    
+    subgraph Switchboards [The Switchboards MCP]
+        PA <-->|Tool Binding| MCP_CI[Code Intel MCP]
+        RA <-->|Tool Binding| MCP_CI
+    end
+    
+    subgraph Dual_Brain [The Dual Brain]
+        MCP_CI <-->|Cypher Queries| Neo4j[(Neo4j Graph)]
+        MCP_CI <-->|Vector Queries| Chroma[(ChromaDB)]
+    end
+    
+    M -->|3. Human-in-the-Loop Checkpoint| User
+    User -->|Approves| M
+    
+    M -->|4. Execute| CA(Coder Agent)
+    CA <-->|Tool Binding| MCP_GH[GitHub MCP]
+    MCP_GH --> GitHub[(GitHub APIs)]
+```
+
+---
+
 ## 🛤️ End-to-End Execution Trace
 
 Here is exactly what happens when a developer runs: `python cli.py solve --url "https://github.com/org/repo/issues/324"` (Issue: *"Fix the JWT token expiration bug"*)
