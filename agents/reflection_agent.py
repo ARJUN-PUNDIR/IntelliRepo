@@ -31,12 +31,26 @@ Return a critique detailing the flaws, followed by a final decision: [APPROVE] o
         """The Manager presses this button to wake up the QA Tester."""
         self.log_status("Waking up and reading the Architect's plan...")
         
+        # --- LECTURE 52: VERIFICATION LOOP (TOOL BINDING) ---
+        self.log_status("Plugging into the Code Intel Switchboard to test hypotheses...")
+        mcp_tools = [
+            {
+                "name": "trace_blast_radius",
+                "description": "Use this to verify if the Architect's plan will break unexpected files."
+            },
+            {
+                "name": "find_dependencies",
+                "description": "Use this to verify if the Architect missed any required foundations."
+            }
+        ]
+        
         self.log_status("Critiquing the plan and generating a Falsifiable Hypothesis...")
         
-        # We pass the QA Tester's paranoid personality and the Architect's plan to the Brain
+        # We pass the tools to the Brain so it can fact-check itself!
         critique = self.brain.generate_response(
             system_prompt=self.system_prompt,
-            user_message=f"Please rigorously critique this Execution Plan:\n{plan}"
+            user_message=f"Please rigorously critique this Execution Plan:\n{plan}",
+            tools=mcp_tools
         )
         
         # Save the critique to the Filing Cabinet
