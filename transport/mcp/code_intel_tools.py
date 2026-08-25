@@ -196,3 +196,41 @@ class CodeIntelTools:
             report.append("-" * 40)
 
         return "\n".join(report)
+
+    def cross_layer_search(self, concept_query: str, max_depth: int = 2) -> str:
+        """
+        MCP Tool: The God-Mode Radar.
+        Combines fuzzy semantic search with strict topological graph tracing in one step.
+        """
+        logger.info(f"AI requested Cross-Layer Search for concept: '{concept_query}'")
+        
+        # Step 1: Use the Semantic Engine to find the best starting point
+        embedder = self.db_pool.get_embedder()
+        chroma_db = self.db_pool.get_chroma()
+        
+        query_vector = embedder.embed_text(concept_query)
+        vector_results = chroma_db.query_similar(query_vector=query_vector, n_results=1)
+        
+        if not vector_results or not vector_results.get("documents") or not vector_results["documents"][0]:
+            return f"❌ Could not find any code matching the concept '{concept_query}'."
+            
+        # Extract the exact node name the Vector DB found
+        target_metadata = vector_results["metadatas"][0][0]
+        target_name = target_metadata.get("name")
+        target_file = target_metadata.get("file_path")
+        
+        logger.info(f"Cross-Layer: Vector DB identified '{target_name}' as the starting point.")
+        
+        # Step 2: Now that we have the exact name, run the Graph Radar!
+        # We can just reuse our own trace_blast_radius method to get the formatted Markdown
+        blast_radius_report = self.trace_blast_radius(node_name=target_name, max_depth=max_depth)
+        
+        # Step 3: Combine them into the Ultimate Mega-Report
+        mega_report = [
+            f"⚡ **CROSS-LAYER INTELLIGENCE REPORT** ⚡",
+            f"**Goal:** Trace impact of concept *'{concept_query}'*",
+            f"**Identified Starting Point:** `{target_name}` (in `{target_file}`)",
+            "\n" + blast_radius_report
+        ]
+        
+        return "\n".join(mega_report)
