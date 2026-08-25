@@ -14,7 +14,7 @@ class CodeIntelTools:
         # We grab the Waiting Room so we don't crash the databases!
         self.db_pool = get_db_pool()
 
-    def trace_blast_radius(self, node_name: str, max_depth: int = 2) -> List[Dict[str, Any]]:
+    def trace_blast_radius(self, node_name: str, max_depth: int = 2) -> str:
         """
         MCP Tool: The Radar.
         Tells the AI Agent exactly which other files and functions will break 
@@ -48,8 +48,28 @@ class CodeIntelTools:
                     })
                 
                 logger.info(f"Radar found {len(raw_data)} dependent items.")
-                return raw_data
+                
+                # 4. The Beautifier: Convert raw JSON into a crisp Markdown report for the AI
+                if not raw_data:
+                    return f"✅ Safe to modify. No dependencies found for '{node_name}'."
+
+                report = [f"🚨 **BLAST RADIUS REPORT FOR `{node_name}`** 🚨", "=" * 40]
+                
+                # Group by distance to show direct vs indirect impact
+                current_distance = 0
+                for item in raw_data:
+                    dist = item["distance"]
+                    if dist != current_distance:
+                        report.append(f"\n📍 **Level {dist} Impact** (Distance: {dist} hops)")
+                        current_distance = dist
+                        
+                    report.append(f"  - [{item['dependent_type'].upper()}] `{item['dependent_name']}` (in {item['file']})")
+
+                report.append("\n" + "=" * 40)
+                report.append("⚠️ *Warning: Modifying the target will likely break the above items.*")
+                
+                return "\n".join(report)
                 
         except Exception as e:
             logger.error(f"Failed to execute Blast Radius trace: {e}")
-            return [{"error": f"Failed to execute trace: {e}"}]
+            return f"❌ Error executing trace: {e}"
