@@ -54,3 +54,22 @@ class CypherBuilder:
         ORDER BY n.file_path
         """
         return query
+
+    @staticmethod
+    def build_dependency_query(node_name: str, max_depth: int = 2) -> str:
+        """
+        Generates the Cypher to find: "What does this node rely on?" (Reverse Lookup)
+        Notice the arrow points AWAY from the target: (target)-[*]->(dependency)
+        """
+        logger.info(f"Translator building reverse dependency query for '{node_name}'")
+        
+        query = f"""
+        MATCH (target:AstNode {{name: '{node_name}'}})
+        MATCH path = (target)-[*1..{max_depth}]->(dependency:AstNode)
+        RETURN dependency.name AS dep_name,
+               dependency.node_type AS dep_type,
+               dependency.file_path AS file,
+               length(path) AS distance
+        ORDER BY distance ASC
+        """
+        return query

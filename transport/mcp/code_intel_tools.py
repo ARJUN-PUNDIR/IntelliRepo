@@ -73,3 +73,47 @@ class CodeIntelTools:
         except Exception as e:
             logger.error(f"Failed to execute Blast Radius trace: {e}")
             return f"❌ Error executing trace: {e}"
+
+    def find_dependencies(self, node_name: str, max_depth: int = 2) -> str:
+        """
+        MCP Tool: The Reverse Radar.
+        Tells the AI Agent exactly what foundation the target `node_name` is built on.
+        """
+        logger.info(f"AI requested Dependencies for '{node_name}' (depth: {max_depth})")
+        
+        cypher_query = CypherBuilder.build_dependency_query(node_name, max_depth)
+        neo4j_driver = self.db_pool.get_neo4j()
+        
+        try:
+            with neo4j_driver.driver.session() as session:
+                result = session.run(cypher_query)
+                
+                raw_data = []
+                for record in result:
+                    raw_data.append({
+                        "name": record["dep_name"],
+                        "type": record["dep_type"],
+                        "file": record["file"],
+                        "distance": record["distance"]
+                    })
+                
+                # The Beautifier for Dependencies
+                if not raw_data:
+                    return f"✅ '{node_name}' has no external dependencies."
+
+                report = [f"🔍 **DEPENDENCY FOUNDATION FOR `{node_name}`** 🔍", "=" * 40]
+                
+                current_distance = 0
+                for item in raw_data:
+                    dist = item["distance"]
+                    if dist != current_distance:
+                        report.append(f"\n📍 **Level {dist} Foundation** (Distance: {dist} hops)")
+                        current_distance = dist
+                        
+                    report.append(f"  - [{item['type'].upper()}] `{item['name']}` (in {item['file']})")
+
+                return "\n".join(report)
+                
+        except Exception as e:
+            logger.error(f"Failed to execute dependency trace: {e}")
+            return f"❌ Error executing trace: {e}"
