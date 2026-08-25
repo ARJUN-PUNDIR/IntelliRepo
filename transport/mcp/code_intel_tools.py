@@ -117,3 +117,43 @@ class CodeIntelTools:
         except Exception as e:
             logger.error(f"Failed to execute dependency trace: {e}")
             return f"❌ Error executing trace: {e}"
+
+    def temporal_search(self, author_name: str, file_path: str = None) -> str:
+        """
+        MCP Tool: The Detective.
+        Tells the AI Agent exactly which functions and classes a specific developer touched.
+        """
+        logger.info(f"AI requested Temporal Search for author '{author_name}'")
+        
+        cypher_query = CypherBuilder.build_temporal_query(author_name, file_path)
+        neo4j_driver = self.db_pool.get_neo4j()
+        
+        try:
+            with neo4j_driver.driver.session() as session:
+                result = session.run(cypher_query)
+                
+                raw_data = []
+                for record in result:
+                    raw_data.append({
+                        "name": record["node_name"],
+                        "type": record["node_type"],
+                        "file": record["file_path"],
+                        "timestamp": record["timestamp"]
+                    })
+                
+                if not raw_data:
+                    return f"🕵️ No code modifications found for author '{author_name}'."
+
+                # The Beautifier for Temporal Data
+                report = [f"🕵️ **DETECTIVE REPORT: Code modified by `{author_name}`** 🕵️", "=" * 50]
+                
+                for item in raw_data:
+                    # We could convert the unix timestamp to a real date here if needed
+                    ts = item["timestamp"] if item["timestamp"] else "Unknown Date"
+                    report.append(f"- [{item['type'].upper()}] `{item['name']}` (in {item['file']}) [Time: {ts}]")
+
+                return "\n".join(report)
+                
+        except Exception as e:
+            logger.error(f"Failed to execute temporal search: {e}")
+            return f"❌ Error executing search: {e}"

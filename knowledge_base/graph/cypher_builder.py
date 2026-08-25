@@ -73,3 +73,28 @@ class CypherBuilder:
         ORDER BY distance ASC
         """
         return query
+
+    @staticmethod
+    def build_temporal_query(author: str, file_path: Optional[str] = None) -> str:
+        """
+        Generates the Cypher to find: "What did this developer touch?" (Chrono Search)
+        """
+        logger.info(f"Translator building temporal query for author '{author}'")
+        
+        # We start by filtering nodes where the git_author contains the target name
+        query = f"MATCH (n:AstNode)\nWHERE toLower(n.git_author) CONTAINS toLower('{author}')"
+        
+        # If the AI only wants to see what the author did in a specific file, we add that filter
+        if file_path:
+            query += f"\nAND n.file_path CONTAINS '{file_path}'"
+            
+        # Return the nodes, sorting by their timestamp (newest first)
+        query += """
+        RETURN n.name AS node_name,
+               n.node_type AS node_type,
+               n.file_path AS file_path,
+               n.git_timestamp AS timestamp
+        ORDER BY n.git_timestamp DESC
+        LIMIT 50
+        """
+        return query
