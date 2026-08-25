@@ -37,20 +37,33 @@ class Orchestrator:
         # The Architect writes V1 of the plan
         plan = self.planner.execute(github_issue_url)
         
-        logger.info("Manager is handing the plan to the QA Tester...")
-        critique = self.reflector.execute(plan)
+        # --- LECTURE 54: MAX-RETRY (THE PATIENCE METER) ---
+        max_debates = 3
+        current_debate = 1
+        is_approved = False
         
-        # The Debate Loop (simplified for now, runs once)
-        if "[REJECT]" in critique:
-            logger.warning("QA Tester REJECTED the plan! Sending it back to the Architect...")
+        while current_debate <= max_debates:
+            logger.info(f"Manager is handing Plan V{current_debate} to the QA Tester...")
+            critique = self.reflector.execute(plan)
             
-            # The Architect gets the original issue PLUS the critique to write V2
-            revised_prompt = f"Original Issue: {github_issue_url}\n\nQA Critique:\n{critique}\n\nPlease revise your plan."
-            plan = self.planner.execute(revised_prompt)
-            
-            logger.info("Architect has finished Plan V2.")
-        else:
-            logger.info("QA Tester APPROVED the plan on the first try!")
+            if "[REJECT]" in critique:
+                logger.warning(f"QA Tester REJECTED Plan V{current_debate}! (Attempt {current_debate}/{max_debates})")
+                
+                if current_debate == max_debates:
+                    logger.error("Manager's Patience Meter is empty! Escalating to Human.")
+                    return "❌ ERROR: Agents could not agree on a safe plan after 3 attempts. Please review manually."
+                
+                # Send it back to the Architect
+                revised_prompt = f"Original Issue: {github_issue_url}\n\nQA Critique:\n{critique}\n\nPlease revise your plan."
+                plan = self.planner.execute(revised_prompt)
+                current_debate += 1
+            else:
+                logger.info(f"QA Tester APPROVED Plan V{current_debate}!")
+                is_approved = True
+                break
+                
+        if not is_approved:
+            return "❌ ERROR: Plan was never approved."
         
         # --- STEP 2: CODING ---
         logger.info("Manager is waking up the Coder Agent...")
